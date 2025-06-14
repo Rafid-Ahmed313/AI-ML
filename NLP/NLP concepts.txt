@@ -1,0 +1,231 @@
+NATURAL LANGUAGE PROCESSING
+
+
+This is a sentence 
+
+1) Tokenization 
+
+"This", "is", "a", "sentence" 
+
+
+BPE/WORDPIECE- 
+
+"T", "h", "i", "s", "a", "s",......
+
+This is a sentence
+
+Unigram/SENTECEPIECE-
+
+Less flexible after training	
+
+"Less", "flexible", "after", "training"
+
+"Less", "flex", "ible", "after", "train", "ing"
+
+
+2) Creating Vocab:
+ 
+    "Less", "flex", "ible", "after", "train", "ing", "Less"
+
+     If the word appeared minimum "2" times
+
+     Set(array)
+     = no repeatation
+
+     
+
+     "Less" = 5, 
+     "flex" = 6
+     "ing" = 7
+
+	Stoi = string to index ["less":5,"flex":6,"ing":7]
+	itos = index to string [5:"less",6:"flex",7:"ing",1:"<SOS>"]
+	
+	word2idx
+	idx2word
+
+
+    Special token:
+        "<SOS>":1 (start of sentence)
+
+	"<EOS>":2 (End of sentence)
+
+	"<PAD>":0 (Padding)
+
+     I am inan = [1,6,10] = I am inan <Pad> <Pad> = [1,6,10,3,3] =length 5 
+
+     I am very much inan = [1,6,8,4,10] - max length 5
+
+     <SOS> I am Inan <PAD><PAD> <EOD>
+
+
+3) Embedding:
+ 
+     I eat pizza 
+     
+     SOS I eat Pizza PAD PAD EOD
+
+     1  10 109 69 0 0 2 
+
+     69 = [........]    Embedding vector
+     10 = [.........]
+     2  = [.........]
+
+
+    i)Word2vec
+       1) Skipgram
+       2) CBOW 
+    
+    ii) Glove Matrix
+
+    hyperparameters: Embedding vector size, N_grams, epochs
+
+	SkipGram: From now I love machine learning.
+
+	{From:[now],
+	 now :[From, I],
+	 I   :[now, love],
+	 love:[I, machine],
+	 machine: [love,Learning],
+         learning:[machine]
+	}
+
+     Skipgram= tries to predict the surrounding words based on the target word 
+
+     I = [1.......50] = len(emb) = 50 torch.randn(50) 
+     
+     I-> emb_vector = skipgram_model(emb_vector) = predicts the next words embedding=len = 50  
+
+         I = embed vector = random
+         next word = love = embed vector = random
+		
+         skipgram ( loss(I_embed,Next_word)) = same korar try korbe
+	 skipgram ( loss(I_embed,Previous word)) = same korar try korbe
+
+         Now I love 
+
+         I similar to love
+
+	 I similar to now
+   
+         Now we love machine learning
+
+
+	I-> embed vector
+        we-> embed vector
+
+         I, we, he, she,                     space tour tour,adventure            space, nasa, moon
+
+		
+       
+
+	 CBOW (continuous bag of words) 
+
+		I love machine learning
+
+		{[Love,Learning]:machine]}
+
+
+		You average (or sum) the embeddings of all the context words to form a single vector — and use that to predict the center word.
+
+
+I love meachine learning
+
+
+target = love
+
+context = I, Machine
+
+I, machine = average 
+
+
+Minimize -> Loss(average, love)
+
+n_gram = 5
+
+10,
+
+(target, context1), (target,context2)
+
+(context1+context2)
+
+
+MLM => Transformer 
+
+words = random embeddings 
+
+
+[CLS] The cat [MASK] on the mat [SEP]  
+
+
+The cat [MASK] on the mat = Sat
+
+predicted embedding, "sat"-> embedding
+
+loss (predicted,real embedding) 
+
+=> tries to minimize the loss
+
+
+
+The Cat sat on the mat 
+
+mask:
+
+	The Cat [MASK] on the mat
+
+
+Target = "sat"
+
+
+
+all vocabs are assigned to a random embedding.
+
+initially defined embedding = the embedding of sat
+
+model ("The Cat [Mask] on the mat"); target = sat
+
+output = baalchhal embedding
+
+loss (random embedding , embedding of the word "sat")
+
+backpropagate 
+
+
+All word's embedding is randomly initiated
+
+So it doesn't matter what the embedding of "sat" is, all that matters is if the model could predict the embedding of "sat" from the context
+
+
+
+
+
+S 
+copy 3 times
+
+Key, Query, Value
+
+
+softmax((key^T.Query)/norm(dim)) * value
+        
+
+
+     
+
+     
+
+      
+ 
+     
+
+	
+
+	
+
+
+
+	
+
+
+
+
